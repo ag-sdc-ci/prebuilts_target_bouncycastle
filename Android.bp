@@ -1,0 +1,131 @@
+package {
+    default_applicable_licenses: ["external_bouncycastle_license"],
+}
+
+license {
+    name: "external_bouncycastle_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-Apache-2.0",
+        "SPDX-license-identifier-BSD",
+        "SPDX-license-identifier-MIT",
+    ],
+    license_text: [
+        "NOTICE",
+    ],
+}
+
+prebuilt_apex {
+    name: "org.blisslabs.ag.ext.bouncycastle",
+    apex_name: "org.blisslabs.ag.ext.bouncycastle",
+    source_apex_name: "org.blisslabs.ag.ext.bouncycastle",
+    arch: {
+        x86_64: {
+            src: "org.blisslabs.ag.ext.bouncycastle.apex",
+        },
+    },
+    filename: "org.blisslabs.ag.ext.bouncycastle.apex",
+}
+
+java_import {
+    name: "bouncycastle-unbundled",
+    jars: ["share/bouncycastle/bouncycastle-unbundled.jar"],
+    host_supported: true,
+    prefer: true,
+}
+
+java_import {
+    name: "bouncycastle-bcpkix-unbundled",
+    jars: ["share/bouncycastle/bouncycastle-bcpkix-unbundled.jar"],
+    host_supported: true,
+    prefer: true,
+}
+
+java_import {
+    name: "bouncycastle-ocsp-unbundled",
+    jars: ["share/bouncycastle/bouncycastle-ocsp-unbundled.jar"],
+    host_supported: true,
+    prefer: true,
+}
+
+java_library_host {
+    name: "bouncycastle-host",
+    static_libs: ["bouncycastle-unbundled"],
+}
+
+java_library {
+    name: "bouncycastle",
+    hostdex: true,
+    installable: true,
+    sdk_version: "none",
+    system_modules: "none",
+    static_libs: ["bouncycastle-unbundled"],
+    apex_available: [
+        "com.android.art",
+        "com.android.art.debug",
+        "//apex_available:platform",
+        "//apex_available:anyapex",
+    ],
+    visibility: ["//visibility:public"],
+}
+
+java_library {
+    name: "bouncycastle-repackaged-unbundled",
+    installable: true,
+    sdk_version: "none",
+    system_modules: "none",
+    static_libs: ["bouncycastle-unbundled"],
+    visibility: ["//visibility:public"],
+}
+
+filegroup {
+    name: "bouncycastle_java_files",
+    visibility: ["//visibility:public"],
+    srcs: ["Empty.java"],
+}
+
+java_library {
+    name: "bouncycastle_ike_digests",
+    visibility: ["//visibility:public"],
+    apex_available: [
+        "com.android.ipsec",
+        "test_com.android.ipsec",
+        "//apex_available:platform",
+        "//apex_available:anyapex",
+    ],
+    static_libs: ["bouncycastle-unbundled"],
+    sdk_version: "core_current",
+}
+
+java_library {
+    name: "bouncycastle-extservices-asn",
+    visibility: ["//visibility:public"],
+    apex_available: [
+        "com.android.extservices",
+        "test_com.android.extservices",
+        "//apex_available:platform",
+        "//apex_available:anyapex",
+    ],
+    static_libs: ["bouncycastle-unbundled"],
+    sdk_version: "core_current",
+}
+
+java_library {
+    name: "bouncycastle-uwb",
+    visibility: ["//visibility:public"],
+    apex_available: [
+        "com.android.uwb",
+        "//apex_available:platform",
+        "//apex_available:anyapex",
+    ],
+    static_libs: ["bouncycastle-unbundled"],
+    sdk_version: "core_current",
+}
+
+java_library_static {
+    name: "bouncycastle-test-lib",
+    visibility: ["//visibility:public"],
+    static_libs: ["bouncycastle-unbundled"],
+    sdk_version: "none",
+    system_modules: "none",
+}
